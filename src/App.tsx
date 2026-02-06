@@ -5,7 +5,7 @@ import './App.css'
 import { useEffect, useState } from "react";
 
 function App() {
-  const minutes: number = 25 * 60;
+  const minutes: number = 0.05 * 60;
 
   const [timer, setTimer] = useState(minutes);
   const [isRunning, setIsRunning] = useState(false);
@@ -48,9 +48,10 @@ function App() {
           />
         </div>
         <div className="mt-4">
-          {showButton ? <Button title="Reset timer" onClick={() => {
+          {(showButton || timer === 0) ? <Button title="Reset timer" onClick={() => {
             setShowButton(false);
             setTimer(minutes);
+            setIsRunning(false);
           }} /> : undefined}
         </div>
       </div>
