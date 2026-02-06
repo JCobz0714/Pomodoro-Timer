@@ -12,5 +12,5 @@ export default function Button(props: ButtonProps){
 
 interface ButtonProps{
     title: string;
-    onClick: () => void;
+    onClick?: () => void;
 }

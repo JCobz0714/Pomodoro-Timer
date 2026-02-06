@@ -5,8 +5,11 @@ import './App.css'
 import { useEffect, useState } from "react";
 
 function App() {
-  const [timer, setTimer] = useState(25 * 60);
+  const minutes: number = 25 * 60;
+
+  const [timer, setTimer] = useState(minutes);
   const [isRunning, setIsRunning] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
       let interval: number | null = null;
@@ -23,8 +26,8 @@ function App() {
   }, [isRunning, timer]);
   
   const formatTime = (seconds: number) => {
+    const minutes: number = Math.floor((seconds / 60));
     seconds = timer % 60;
-    const minutes: number = Math.floor((seconds / 60) - 1);
 
     return `${minutes.toString()}:${seconds.toString()}`;
   }
@@ -36,7 +39,17 @@ function App() {
         <Timer timer={formatTime(timer)}/>
         <div className="flex">
           <Button title="Start timer" onClick={() => setIsRunning(true)} />
-          <Button title="Stop timer" onClick={() => setIsRunning(false)} />
+          <Button title="Stop timer" onClick={() => {
+            setIsRunning(false);
+            setShowButton(true);
+            }}
+          />
+        </div>
+        <div className="mt-4">
+          {showButton ? <Button title="Reset timer" onClick={() => {
+            setShowButton(false);
+            setTimer(minutes);
+          }} /> : undefined}
         </div>
       </div>
     </>
