@@ -29,7 +29,9 @@ function App() {
     const minutes: number = Math.floor((seconds / 60));
     seconds = timer % 60;
 
-    return `${minutes.toString()}:${seconds.toString()}`;
+    //padStart is for showing 2 digits (or any quantity you want) instead 
+    // of just one
+    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   }
   
   return (
