@@ -45,6 +45,8 @@ function App() {
             setIsRunning(false);
             setShowButton(true);
             }}
+          //Sending the disabled prop so the user can't click if the timer hasn't started
+          disabled={timer === minutes ? true : false}
           />
         </div>
         <div className="mt-4">

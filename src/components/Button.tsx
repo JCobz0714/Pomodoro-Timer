@@ -3,6 +3,7 @@ export default function Button(props: ButtonProps){
         <>
             <button className="bg-green-400 text-green-100 rounded-lg p-2 mx-4"
             onClick={props.onClick}
+            disabled={props.disabled}
             >
                 {props.title}
             </button>
@@ -13,4 +14,5 @@ export default function Button(props: ButtonProps){
 interface ButtonProps{
     title: string;
     onClick?: () => void;
+    disabled?: boolean;
 }
