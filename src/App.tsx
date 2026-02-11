@@ -20,6 +20,11 @@ function App() {
           }, 1000)
       }
 
+      //Showing an alert to the user stating that the time for studying is over
+      if(timer === 0){
+        alert("Time is up! Now It's time for you to rest");
+      }
+
       return () => {
           if(interval) clearInterval(interval);
       }
