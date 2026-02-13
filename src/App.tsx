@@ -6,7 +6,9 @@ import './App.css'
 import { useEffect, useState } from "react";
 
 function App() {
-  let minutes: number = 0.05 * 60;
+  const minutes: number = 0.05 * 60;
+  const minutesBreak: number = 0.05 * 60;
+  let timerInitialTime = minutes;
 
   const [timer, setTimer] = useState(minutes);
   const [isRunning, setIsRunning] = useState(false);
@@ -22,9 +24,16 @@ function App() {
           interval = setInterval(() => {
               setTimer((time) => time - 1);
           }, 1000)
-      } else if(timer === 0){
+      } else if(timer === 0 && timerInitialTime === minutes){
         setMode("break");
-        setTimer(0.05 * 60);
+        setTimer(minutesBreak);
+        timerInitialTime = minutesBreak;
+
+        if(pomodoros <= 4 && timerInitialTime === minutes){
+          setPomodoros(pomodoros + 1);
+        } else{
+          setPomodoros(0);
+        }
       }
 
       //Showing an alert to the user stating that the time for studying is over
@@ -35,11 +44,7 @@ function App() {
       return () => {
           if(interval) clearInterval(interval);
       }
-  }, [isRunning, timer, mode]);
-
-  if(timer === 0 && !isRunning){
-    minutes = 5 * 60;
-  }
+  }, [isRunning, timer, mode, pomodoros, timerInitialTime]);
   
   const formatTime = (seconds: number) => {
     const minutes: number = Math.floor((seconds / 60));
