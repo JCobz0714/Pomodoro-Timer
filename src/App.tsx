@@ -1,6 +1,7 @@
 import Title from "./components/Title";
 import Timer from "./components/Timer";
 import Button from "./components/Button";
+import Pomodoros from "./components/Pomodoros";
 import './App.css'
 import { useEffect, useState } from "react";
 
@@ -11,6 +12,7 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [mode, setMode] = useState<"work" | "break">("work");
+  const [pomodoros, setPomodoros] = useState(0);
 
   //useEffect for work time
   useEffect(() => {
@@ -22,7 +24,7 @@ function App() {
           }, 1000)
       } else if(timer === 0){
         setMode("break");
-        setTimer(5 * 60);
+        setTimer(0.05 * 60);
       }
 
       //Showing an alert to the user stating that the time for studying is over
@@ -52,6 +54,7 @@ function App() {
     <>
       <div className="flex flex-col justify-center items-center min-h-screen bg-slate-800">
         <Title />
+        <Pomodoros counter={pomodoros} />
         <Timer timer={formatTime(timer)}/>
         <div className="flex">
           <Button title="Start timer" onClick={() => setIsRunning(true)} />
