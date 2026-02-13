@@ -5,12 +5,14 @@ import './App.css'
 import { useEffect, useState } from "react";
 
 function App() {
-  const minutes: number = 0.05 * 60;
+  let minutes: number = 0.05 * 60;
 
   const [timer, setTimer] = useState(minutes);
   const [isRunning, setIsRunning] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [mode, setMode] = useState<"work" | "break">("work");
 
+  //useEffect for work time
   useEffect(() => {
       let interval: number | null = null;
 
@@ -18,6 +20,9 @@ function App() {
           interval = setInterval(() => {
               setTimer((time) => time - 1);
           }, 1000)
+      } else if(timer === 0){
+        setMode("break");
+        setTimer(5 * 60);
       }
 
       //Showing an alert to the user stating that the time for studying is over
@@ -28,7 +33,11 @@ function App() {
       return () => {
           if(interval) clearInterval(interval);
       }
-  }, [isRunning, timer]);
+  }, [isRunning, timer, mode]);
+
+  if(timer === 0 && !isRunning){
+    minutes = 5 * 60;
+  }
   
   const formatTime = (seconds: number) => {
     const minutes: number = Math.floor((seconds / 60));
