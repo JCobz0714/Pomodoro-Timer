@@ -12,10 +12,15 @@ function App() {
 
   const [timer, setTimer] = useState(minutes);
   const [isRunning, setIsRunning] = useState(false);
-  const [showButton, setShowButton] = useState(false);
   const [mode, setMode] = useState<"work" | "break">("work");
   const [pomodoros, setPomodoros] = useState(0);
 
+  //Saving the pomodoro counter in local storage so if the user refreshes the page, the progress
+  // won't be lost
+  useEffect(() => {
+    localStorage.setItem("pomodoros", pomodoros.toString());
+  }, [pomodoros]);
+  
   //useEffect for work time
   useEffect(() => {
       let interval: number | null = null;
@@ -60,23 +65,27 @@ function App() {
       <div className="flex flex-col justify-center items-center min-h-screen bg-slate-800">
         <Title />
         <Pomodoros counter={pomodoros} />
+        <Button title="Reset pomodoros" disabled={pomodoros === 0 ? true : false} 
+        onClick={() => {
+          setPomodoros(0);
+        }}
+        />
         <Timer timer={formatTime(timer)}/>
         <div className="flex">
           <Button title="Start timer" onClick={() => setIsRunning(true)} />
           <Button title="Stop timer" onClick={() => {
             setIsRunning(false);
-            setShowButton(true);
             }}
           //Sending the disabled prop so the user can't click if the timer hasn't started
-          disabled={timer === minutes ? true : false}
+          disabled={timer === minutes}
           />
         </div>
         <div className="mt-4">
-          {(showButton || timer === 0) ? <Button title="Reset timer" onClick={() => {
-            setShowButton(false);
+          <Button title="Reset timer" disabled={isRunning || timer === minutes} 
+          onClick={() =>{
             setTimer(minutes);
             setIsRunning(false);
-          }} /> : undefined}
+          }} />
         </div>
       </div>
     </>
