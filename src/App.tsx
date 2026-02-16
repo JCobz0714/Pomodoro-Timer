@@ -13,7 +13,12 @@ function App() {
   const [timer, setTimer] = useState(minutes);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState<"work" | "break">("work");
-  const [pomodoros, setPomodoros] = useState(0);
+
+  //Setting the pomodoros value by checking if the counter has moved or not (first pomodoro)
+  const [pomodoros, setPomodoros] = useState(() => {
+    const saved = localStorage.getItem("pomodoros");
+    return saved ? Number(saved) : 0;
+  });
 
   //Saving the pomodoro counter in local storage so if the user refreshes the page, the progress
   // won't be lost
